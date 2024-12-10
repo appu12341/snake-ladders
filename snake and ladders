@@ -1,0 +1,55 @@
+import random
+
+# Define the board with snakes and ladders
+board = {
+    3: 22,   # Ladder from 3 to 22
+    5: 8,    # Ladder from 5 to 8
+    11: 26,  # Ladder from 11 to 26
+    20: 29,  # Ladder from 20 to 29
+    17: 4,   # Snake from 17 to 4
+    19: 7,   # Snake from 19 to 7
+    21: 9,   # Snake from 21 to 9
+    27: 1    # Snake from 27 to 1
+}
+
+# Function to roll the dice
+def roll_dice():
+    return random.randint(1, 6)
+
+# Function to play the game
+def play_game():
+    player_position = [0, 0]  # Starting position of players
+    players = ["Player 1", "Player 2"]
+    turn = 0  # Player 1 starts
+    
+    print("Welcome to Snakes and Ladders!")
+    print("First player to reach 30 wins!\n")
+    
+    while True:
+        current_player = players[turn]
+        print(f"{current_player}'s turn")
+        input("Press Enter to roll the dice...")
+        
+        dice = roll_dice()
+        print(f"{current_player} rolled a {dice}")
+        
+        new_position = player_position[turn] + dice
+        
+        if new_position > 30:
+            print(f"{current_player} cannot move. Position remains {player_position[turn]}")
+        else:
+            print(f"{current_player} moves from {player_position[turn]} to {new_position}")
+            new_position = board.get(new_position, new_position)
+            print(f"After snakes/ladders, {current_player}'s new position is {new_position}")
+            player_position[turn] = new_position
+            
+            if new_position == 30:
+                print(f"🎉 {current_player} wins the game! 🎉")
+                break
+        
+        print("-" * 30)
+        turn = 1 - turn  # Switch turns
+
+# Run the game
+if __name__ == "__main__":
+    play_game()
